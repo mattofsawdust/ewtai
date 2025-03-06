@@ -1347,17 +1347,13 @@ if st.session_state.analysis_run and (st.session_state.analyzed_symbol or symbol
                     # We'll place this right after the main chart but before the Elliott Wave section
                     tab_names = ["Ichimoku Cloud Analysis", "Elliott Wave Analysis"]
                     
-                    # Update tab selection in session state when tabs are clicked
-                    def handle_tab_change():
-                        # The SessionState tab_key will be set automatically when the user clicks a tab
-                        tab_idx = int(st.session_state.tabs_key.split("-")[1])
-                        st.session_state.selected_tab = tab_idx
+                    # Use the default tab index from session state if available
+                    selected_tab_index = st.session_state.selected_tab
                     
-                    # Use session state to remember which tab was selected
+                    # Create tabs - st.tabs() doesn't support on_change
                     ichimoku_tab, elliott_tab = st.tabs(
                         tab_names, 
-                        key="tabs_key",
-                        on_change=handle_tab_change
+                        key="tabs_key"
                     )
                     
                     with ichimoku_tab:
