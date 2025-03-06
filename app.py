@@ -2519,112 +2519,112 @@ if st.session_state.analysis_run and (st.session_state.analyzed_symbol or symbol
                     st.write(f"• Resistance: ${demo_wave_points[3]:.2f} (W3), ${demo_wave_points[5]:.2f} (W5)")
                 
                 st.markdown("</div>", unsafe_allow_html=True)
+                
+                # Replace checkbox with expandable section
+                with st.expander("📊 Alternative Wave Counts & Scenarios"):
+                    st.markdown("<h4>Select Alternative Wave Pattern</h4>", unsafe_allow_html=True)
                     
-                    # Replace checkbox with expandable section
-                    with st.expander("📊 Alternative Wave Counts & Scenarios"):
-                        st.markdown("<h4>Select Alternative Wave Pattern</h4>", unsafe_allow_html=True)
+                    # Create a radio button for selecting different wave counts
+                    # Use session state to persist selection
+                    def on_wave_count_change_enhanced():
+                        st.session_state.wave_count_selection = st.session_state.wave_count_radio_enhanced
                         
-                        # Create a radio button for selecting different wave counts
-                        # Use session state to persist selection
-                        def on_wave_count_change_enhanced():
-                            st.session_state.wave_count_selection = st.session_state.wave_count_radio_enhanced
-                            
-                        selected_count = st.radio(
-                            "Choose a wave count to view its complete analysis:",
-                            ["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"],
-                            key="wave_count_radio_enhanced",
-                            horizontal=True,
-                            on_change=on_wave_count_change_enhanced,
-                            index=["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"].index(st.session_state.wave_count_selection)
-                        )
+                    selected_count = st.radio(
+                        "Choose a wave count to view its complete analysis:",
+                        ["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"],
+                        key="wave_count_radio_enhanced",
+                        horizontal=True,
+                        on_change=on_wave_count_change_enhanced,
+                        index=["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"].index(st.session_state.wave_count_selection)
+                    )
+                    
+                    st.markdown("<hr style='margin: 15px 0px;'>", unsafe_allow_html=True)
+                    
+                    # Define different wave patterns based on selection
+                    if selected_count == "Primary Count (Impulse)":
+                        st.write("Pattern Type: Impulse (5-3 Structure)")
+                        st.write("Confidence: 0.75")
+                        st.markdown("This primary count shows a clear 5-wave impulse pattern suggesting further upside potential.")
                         
-                        st.markdown("<hr style='margin: 15px 0px;'>", unsafe_allow_html=True)
+                        # Define key levels for Primary Count
+                        st.markdown("<h5>Key Price Levels - Primary Count</h5>", unsafe_allow_html=True)
+                        st.write("**Key Resistance:**")
+                        st.write(f"• ${demo_wave_points[3]:.2f} (Wave 3 High)")
+                        st.write(f"• ${demo_wave_points[5]:.2f} (Wave 5 High)")
                         
-                        # Define different wave patterns based on selection
-                        if selected_count == "Primary Count (Impulse)":
-                            st.write("Pattern Type: Impulse (5-3 Structure)")
-                            st.write("Confidence: 0.75")
-                            st.markdown("This primary count shows a clear 5-wave impulse pattern suggesting further upside potential.")
-                            
-                            # Define key levels for Primary Count
-                            st.markdown("<h5>Key Price Levels - Primary Count</h5>", unsafe_allow_html=True)
-                            st.write("**Key Resistance:**")
-                            st.write(f"• ${demo_wave_points[3]:.2f} (Wave 3 High)")
-                            st.write(f"• ${demo_wave_points[5]:.2f} (Wave 5 High)")
-                            
-                            st.write("**Key Support:**")
-                            st.write(f"• ${demo_wave_points[2]:.2f} (Wave 2 Low)")
-                            st.write(f"• ${demo_wave_points[4]:.2f} (Wave 4 Low)")
-                            
-                            # Price targets
-                            wave1_2_range = abs(demo_wave_points[2] - demo_wave_points[0])
-                            fib_target = demo_wave_points[0] + (wave1_2_range * 1.618)
-                            
-                            st.markdown("<h5>Position Entry Strategy</h5>", unsafe_allow_html=True)
-                            st.write(f"• Entry: Above ${demo_wave_points[4]:.2f} with upside momentum")
-                            st.write(f"• Target: ${fib_target:.2f} (1.618 Fibonacci extension)")
-                            st.write(f"• Stop-Loss: ${demo_wave_points[4] * 0.98:.2f} (Below Wave 4)")
-                            
-                        elif selected_count == "Alternate Count (Diagonal)":
-                            st.write("Pattern Type: Diagonal Pattern")
-                            st.write("Confidence: 0.60")
-                            st.markdown("This alternative count suggests a diagonal pattern forming, typically indicating a weakening trend.")
-                            
-                            # Define key levels for Diagonal Count (slightly different)
-                            diag_pt1 = demo_wave_points[0] * 0.95
-                            diag_pt2 = demo_wave_points[2] * 1.05
-                            diag_pt3 = demo_wave_points[3] * 0.92
-                            diag_pt4 = demo_wave_points[4] * 1.02
-                            diag_pt5 = demo_wave_points[5] * 0.95
-                            
-                            st.markdown("<h5>Key Price Levels - Diagonal Count</h5>", unsafe_allow_html=True)
-                            st.write("**Key Resistance:**")
-                            st.write(f"• ${diag_pt3:.2f} (Diagonal Wave 3 High)")
-                            st.write(f"• ${diag_pt5:.2f} (Diagonal Wave 5 Target)")
-                            
-                            st.write("**Key Support:**")
-                            st.write(f"• ${diag_pt2:.2f} (Diagonal Wave 2 Low)")
-                            st.write(f"• ${diag_pt4:.2f} (Diagonal Wave 4 Low)")
-                            
-                            # Diagonals typically retrace after completion
-                            diagonal_height = abs(diag_pt5 - diag_pt1)
-                            retracement_target = diag_pt5 - (diagonal_height * 0.786)
-                            
-                            st.markdown("<h5>Trading Strategy</h5>", unsafe_allow_html=True)
-                            st.write("• First leg: Long to completion target")
-                            st.write(f"• Second leg: Short after completion below ${diag_pt5 * 0.98:.2f}")
-                            st.write(f"• Ultimate target: ${retracement_target:.2f} (78.6% retracement)")
-                            
-                        else:  # Bearish Count
-                            st.write("Pattern Type: Ending Diagonal (Bearish)")
-                            st.write("Confidence: 0.45")
-                            st.markdown("This bearish count suggests an ending diagonal formation, which typically signals a potential trend reversal.")
-                            
-                            # Define key levels for Bearish Count
-                            bear_pt1 = demo_wave_points[0] * 1.05
-                            bear_pt2 = demo_wave_points[2] * 0.95
-                            bear_pt3 = demo_wave_points[3] * 0.88
-                            bear_pt4 = demo_wave_points[4] * 0.92
-                            bear_pt5 = current_price * 1.03  # Slightly above current price
-                            
-                            st.markdown("<h5>Key Price Levels - Bearish Count</h5>", unsafe_allow_html=True)
-                            st.write("**Key Resistance:**")
-                            st.write(f"• ${bear_pt5:.2f} (Final Wave 5 High - SELL Signal)")
-                            st.write(f"• ${bear_pt3:.2f} (Wave 3 High)")
-                            
-                            st.write("**Key Support:**")
-                            st.write(f"• ${bear_pt4:.2f} (Wave 4 Low - will break down)")
-                            st.write(f"• ${bear_pt2:.2f} (Wave 2 Low - target after breakdown)")
-                            
-                            # Bearish targets typically project equal to the pattern height
-                            pattern_height = abs(bear_pt5 - bear_pt1)
-                            downside_target = bear_pt5 - pattern_height
-                            
-                            st.markdown("<h5>Bearish Trading Strategy</h5>", unsafe_allow_html=True)
-                            st.write(f"• Short Entry: Sell at ${bear_pt5:.2f}")
-                            st.write(f"• Confirmation: Break below ${bear_pt4:.2f}")  
-                            st.write(f"• Initial Target: ${bear_pt2:.2f}")
-                            st.write(f"• Ultimate Target: ${downside_target:.2f}")
+                        st.write("**Key Support:**")
+                        st.write(f"• ${demo_wave_points[2]:.2f} (Wave 2 Low)")
+                        st.write(f"• ${demo_wave_points[4]:.2f} (Wave 4 Low)")
+                        
+                        # Price targets
+                        wave1_2_range = abs(demo_wave_points[2] - demo_wave_points[0])
+                        fib_target = demo_wave_points[0] + (wave1_2_range * 1.618)
+                        
+                        st.markdown("<h5>Position Entry Strategy</h5>", unsafe_allow_html=True)
+                        st.write(f"• Entry: Above ${demo_wave_points[4]:.2f} with upside momentum")
+                        st.write(f"• Target: ${fib_target:.2f} (1.618 Fibonacci extension)")
+                        st.write(f"• Stop-Loss: ${demo_wave_points[4] * 0.98:.2f} (Below Wave 4)")
+                        
+                    elif selected_count == "Alternate Count (Diagonal)":
+                        st.write("Pattern Type: Diagonal Pattern")
+                        st.write("Confidence: 0.60")
+                        st.markdown("This alternative count suggests a diagonal pattern forming, typically indicating a weakening trend.")
+                        
+                        # Define key levels for Diagonal Count (slightly different)
+                        diag_pt1 = demo_wave_points[0] * 0.95
+                        diag_pt2 = demo_wave_points[2] * 1.05
+                        diag_pt3 = demo_wave_points[3] * 0.92
+                        diag_pt4 = demo_wave_points[4] * 1.02
+                        diag_pt5 = demo_wave_points[5] * 0.95
+                        
+                        st.markdown("<h5>Key Price Levels - Diagonal Count</h5>", unsafe_allow_html=True)
+                        st.write("**Key Resistance:**")
+                        st.write(f"• ${diag_pt3:.2f} (Diagonal Wave 3 High)")
+                        st.write(f"• ${diag_pt5:.2f} (Diagonal Wave 5 Target)")
+                        
+                        st.write("**Key Support:**")
+                        st.write(f"• ${diag_pt2:.2f} (Diagonal Wave 2 Low)")
+                        st.write(f"• ${diag_pt4:.2f} (Diagonal Wave 4 Low)")
+                        
+                        # Diagonals typically retrace after completion
+                        diagonal_height = abs(diag_pt5 - diag_pt1)
+                        retracement_target = diag_pt5 - (diagonal_height * 0.786)
+                        
+                        st.markdown("<h5>Trading Strategy</h5>", unsafe_allow_html=True)
+                        st.write("• First leg: Long to completion target")
+                        st.write(f"• Second leg: Short after completion below ${diag_pt5 * 0.98:.2f}")
+                        st.write(f"• Ultimate target: ${retracement_target:.2f} (78.6% retracement)")
+                        
+                    else:  # Bearish Count
+                        st.write("Pattern Type: Ending Diagonal (Bearish)")
+                        st.write("Confidence: 0.45")
+                        st.markdown("This bearish count suggests an ending diagonal formation, which typically signals a potential trend reversal.")
+                        
+                        # Define key levels for Bearish Count
+                        bear_pt1 = demo_wave_points[0] * 1.05
+                        bear_pt2 = demo_wave_points[2] * 0.95
+                        bear_pt3 = demo_wave_points[3] * 0.88
+                        bear_pt4 = demo_wave_points[4] * 0.92
+                        bear_pt5 = current_price * 1.03  # Slightly above current price
+                        
+                        st.markdown("<h5>Key Price Levels - Bearish Count</h5>", unsafe_allow_html=True)
+                        st.write("**Key Resistance:**")
+                        st.write(f"• ${bear_pt5:.2f} (Final Wave 5 High - SELL Signal)")
+                        st.write(f"• ${bear_pt3:.2f} (Wave 3 High)")
+                        
+                        st.write("**Key Support:**")
+                        st.write(f"• ${bear_pt4:.2f} (Wave 4 Low - will break down)")
+                        st.write(f"• ${bear_pt2:.2f} (Wave 2 Low - target after breakdown)")
+                        
+                        # Bearish targets typically project equal to the pattern height
+                        pattern_height = abs(bear_pt5 - bear_pt1)
+                        downside_target = bear_pt5 - pattern_height
+                        
+                        st.markdown("<h5>Bearish Trading Strategy</h5>", unsafe_allow_html=True)
+                        st.write(f"• Short Entry: Sell at ${bear_pt5:.2f}")
+                        st.write(f"• Confirmation: Break below ${bear_pt4:.2f}")  
+                        st.write(f"• Initial Target: ${bear_pt2:.2f}")
+                        st.write(f"• Ultimate Target: ${downside_target:.2f}")
                 
                 # Key price levels are now shown in the main Wave Identification section
                 
