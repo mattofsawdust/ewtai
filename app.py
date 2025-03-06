@@ -758,7 +758,7 @@ except Exception as e:
 # Page configuration
 st.set_page_config(
     page_title="EWTai - Market Analyzer V2", # Changed to force reload
-    page_icon="📈",
+    page_icon="🚀", # Changed icon - you can also use a custom image path: "assets/favicon.png"
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -801,7 +801,16 @@ st.markdown("<h1 class='main-header'>EWTai Market Analyzer</h1>", unsafe_allow_h
 st.markdown("<p style='text-align: center'>An advanced market analysis tool using Elliott Wave Theory and AI</p>", unsafe_allow_html=True)
 
 # Sidebar
-st.sidebar.image("https://cdn-icons-png.flaticon.com/512/6295/6295417.png", width=100)
+# Option 1: Use a publicly hosted image
+# st.sidebar.image("https://example.com/your-custom-logo.png", width=100)
+
+# Option 2: Use a local image from your repo's assets folder
+# - Upload your logo to the assets folder in your GitHub repo
+st.sidebar.image("assets/logo.png", width=100, use_column_width=True)
+
+# Fallback to an emoji if the image isn't found
+if not os.path.exists("assets/logo.png"):
+    st.sidebar.title("🚀 EWTai")
 st.sidebar.title("Settings")
 
 # Check for dependency availability
