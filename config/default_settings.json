@@ -1,0 +1,15 @@
+{
+    "symbols": ["AAPL", "MSFT", "GOOG", "AMZN", "TSLA", "BTC-USD", "ETH-USD", "ADA-USD"],
+    "timeframe": "1d",
+    "lookback_period": 365,
+    "monitoring_interval_hours": 6,
+    "confidence_threshold": 0.7,
+    "email_settings": {
+        "enabled": false,
+        "smtp_server": "smtp.gmail.com",
+        "port": 587,
+        "email_to": "",
+        "email_from": "",
+        "password": ""
+    }
+}
