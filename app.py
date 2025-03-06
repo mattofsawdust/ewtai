@@ -1344,17 +1344,11 @@ if st.session_state.analysis_run and (st.session_state.analyzed_symbol or symbol
                         st.plotly_chart(fig, use_container_width=True)
                     
                     # Create tabs for Elliott Wave and Ichimoku
-                    # We'll place this right after the main chart but before the Elliott Wave section
-                    tab_names = ["Ichimoku Cloud Analysis", "Elliott Wave Analysis"]
+                    # Simplified tab creation to avoid any errors
+                    tab1, tab2 = st.tabs(["Ichimoku Cloud Analysis", "Elliott Wave Analysis"])
                     
-                    # Use the default tab index from session state if available
-                    selected_tab_index = st.session_state.selected_tab
-                    
-                    # Create tabs - st.tabs() doesn't support on_change
-                    ichimoku_tab, elliott_tab = st.tabs(
-                        tab_names, 
-                        key="tabs_key"
-                    )
+                    # Rename for compatibility with the rest of the code
+                    ichimoku_tab, elliott_tab = tab1, tab2
                     
                     with ichimoku_tab:
                         st.markdown("### Ichimoku Cloud Analysis")
