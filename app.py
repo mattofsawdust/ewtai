@@ -806,7 +806,7 @@ st.markdown("<p style='text-align: center'>An advanced market analysis tool usin
 
 # Option 2: Use a local image from your repo's assets folder
 # - Upload your logo to the assets folder in your GitHub repo
-st.sidebar.image("assets/logo.png", width=100, use_column_width=True)
+st.sidebar.image("assets/logo.png", width=100, use_container_width=True)
 
 # Fallback to an emoji if the image isn't found
 if not os.path.exists("assets/logo.png"):
@@ -1811,9 +1811,27 @@ if symbol and run_analysis:
                             st.write(f"Pattern Type: {pattern_type}")
                             st.write(f"Confidence: {confidence:.2f}")
                             
-                            # Show wave count toggle (with unique key to avoid duplication error)
-                            show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False, key="elliott_tab_wave_counts")
                             st.markdown("</div>", unsafe_allow_html=True)
+                            
+                            # Replace checkbox with expandable section
+                            with st.expander("📊 Show Alternative Wave Counts"):
+                                st.markdown("<h4>Alternative Wave Patterns</h4>", unsafe_allow_html=True)
+                                wave_tabs = st.tabs(["Wave Count 1", "Wave Count 2", "Wave Count 3"])
+                                
+                                with wave_tabs[0]:
+                                    st.write("Pattern Type: Primary Count (impulse)")
+                                    st.write("Confidence: 0.75")
+                                    st.markdown("This count shows a clear 5-wave impulse pattern suggesting further upside potential. The key invalidation point is below the Wave 1 low.")
+                                    
+                                with wave_tabs[1]:
+                                    st.write("Pattern Type: Alternate Count (diagonal)")
+                                    st.write("Confidence: 0.60")
+                                    st.markdown("This alternative count suggests a diagonal pattern forming, which might indicate a weakening trend. If this count is valid, expect a deeper correction after completion.")
+                                    
+                                with wave_tabs[2]:
+                                    st.write("Pattern Type: Bearish Count (ending diagonal)")
+                                    st.write("Confidence: 0.45")
+                                    st.markdown("This lower-probability count suggests we may be forming an ending diagonal, which would signal a potential trend reversal after completion.")
                     
                         with ew_col2:
                             st.markdown("<div class='info-container'>", unsafe_allow_html=True)
@@ -2028,9 +2046,27 @@ if symbol and run_analysis:
                         st.write(f"Pattern Type: {pattern_type}")
                         st.write(f"Confidence: {confidence:.2f}")
                         
-                        # Show wave count toggle
-                        show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False, key="wave_counts_main_tab")
                         st.markdown("</div>", unsafe_allow_html=True)
+                        
+                        # Replace checkbox with expandable section
+                        with st.expander("📊 Show Alternative Wave Counts"):
+                            st.markdown("<h4>Alternative Wave Patterns</h4>", unsafe_allow_html=True)
+                            wave_tabs = st.tabs(["Wave Count 1", "Wave Count 2", "Wave Count 3"])
+                            
+                            with wave_tabs[0]:
+                                st.write("Pattern Type: Primary Count (impulse)")
+                                st.write("Confidence: 0.75")
+                                st.markdown("This count shows a clear 5-wave impulse pattern suggesting further upside potential. The key invalidation point is below the Wave 1 low.")
+                                
+                            with wave_tabs[1]:
+                                st.write("Pattern Type: Alternate Count (diagonal)")
+                                st.write("Confidence: 0.60")
+                                st.markdown("This alternative count suggests a diagonal pattern forming, which might indicate a weakening trend. If this count is valid, expect a deeper correction after completion.")
+                                
+                            with wave_tabs[2]:
+                                st.write("Pattern Type: Bearish Count (ending diagonal)")
+                                st.write("Confidence: 0.45")
+                                st.markdown("This lower-probability count suggests we may be forming an ending diagonal, which would signal a potential trend reversal after completion.")
                     
                     with ew_col2:
                         st.markdown("<div class='info-container'>", unsafe_allow_html=True)
@@ -2155,25 +2191,7 @@ if symbol and run_analysis:
                     
                     # Additional analysis already provided in the Elliott Wave tab above
                     
-                    # Show alternative wave counts if requested
-                    if show_multiple_counts:
-                        st.markdown("<h4>Alternative Wave Counts</h4>", unsafe_allow_html=True)
-                        wave_tabs = st.tabs(["Wave Count 1", "Wave Count 2", "Wave Count 3"])
-                        
-                        with wave_tabs[0]:
-                            st.write("Pattern Type: Primary Count (impulse)")
-                            st.write("Confidence: 0.75")
-                            st.markdown("This count shows a clear 5-wave impulse pattern suggesting further upside potential. The key invalidation point is below the Wave 1 low.")
-                            
-                        with wave_tabs[1]:
-                            st.write("Pattern Type: Alternate Count (diagonal)")
-                            st.write("Confidence: 0.60")
-                            st.markdown("This alternative count suggests a diagonal pattern forming, which might indicate a weakening trend. If this count is valid, expect a deeper correction after completion.")
-                            
-                        with wave_tabs[2]:
-                            st.write("Pattern Type: Bearish Count (ending diagonal)")
-                            st.write("Confidence: 0.45")
-                            st.markdown("This lower-probability count suggests we may be forming an ending diagonal, which would signal a potential trend reversal after completion.")
+                    # Alternative wave counts now handled in the expander above
                     
                     # Add PDF export for basic analysis
                     st.markdown("### Export Analysis")
@@ -2317,9 +2335,27 @@ if symbol and run_analysis:
                     st.write(f"Pattern Type: {pattern_type}")
                     st.write(f"Confidence: {confidence:.2f}")
                     
-                    # Show wave count toggle
-                    show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False, key="wave_counts_enhanced_analysis")
                     st.markdown("</div>", unsafe_allow_html=True)
+                    
+                    # Replace checkbox with expandable section
+                    with st.expander("📊 Show Alternative Wave Counts"):
+                        st.markdown("<h4>Alternative Wave Patterns</h4>", unsafe_allow_html=True)
+                        wave_tabs = st.tabs(["Wave Count 1", "Wave Count 2", "Wave Count 3"])
+                        
+                        with wave_tabs[0]:
+                            st.write("Pattern Type: Primary Count (impulse)")
+                            st.write("Confidence: 0.75")
+                            st.markdown("This count shows a clear 5-wave impulse pattern suggesting further upside potential. The key invalidation point is below the Wave 1 low.")
+                            
+                        with wave_tabs[1]:
+                            st.write("Pattern Type: Alternate Count (diagonal)")
+                            st.write("Confidence: 0.60")
+                            st.markdown("This alternative count suggests a diagonal pattern forming, which might indicate a weakening trend. If this count is valid, expect a deeper correction after completion.")
+                            
+                        with wave_tabs[2]:
+                            st.write("Pattern Type: Bearish Count (ending diagonal)")
+                            st.write("Confidence: 0.45")
+                            st.markdown("This lower-probability count suggests we may be forming an ending diagonal, which would signal a potential trend reversal after completion.")
                 
                 with ew_col2:
                     st.markdown("<div class='info-container'>", unsafe_allow_html=True)
@@ -2444,25 +2480,7 @@ if symbol and run_analysis:
                 
                 # Additional analysis already provided in the Elliott Wave tab above
                 
-                # Show alternative wave counts if requested
-                if show_multiple_counts:
-                    st.markdown("<h4>Alternative Wave Counts</h4>", unsafe_allow_html=True)
-                    wave_tabs = st.tabs(["Wave Count 1", "Wave Count 2", "Wave Count 3"])
-                    
-                    with wave_tabs[0]:
-                        st.write("Pattern Type: Primary Count (impulse)")
-                        st.write("Confidence: 0.75")
-                        st.markdown("This count shows a clear 5-wave impulse pattern suggesting further upside potential. The key invalidation point is below the Wave 1 low.")
-                        
-                    with wave_tabs[1]:
-                        st.write("Pattern Type: Alternate Count (diagonal)")
-                        st.write("Confidence: 0.60")
-                        st.markdown("This alternative count suggests a diagonal pattern forming, which might indicate a weakening trend. If this count is valid, expect a deeper correction after completion.")
-                        
-                    with wave_tabs[2]:
-                        st.write("Pattern Type: Bearish Count (ending diagonal)")
-                        st.write("Confidence: 0.45")
-                        st.markdown("This lower-probability count suggests we may be forming an ending diagonal, which would signal a potential trend reversal after completion.")
+                # Alternative wave counts now handled in the expander above
                 
                 # Show a disclaimer
                 st.info("⚠️ Disclaimer: This analysis is for informational purposes only and does not constitute investment advice. Always do your own research before making investment decisions.")
