@@ -763,6 +763,16 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Initialize session state to maintain app state
+if 'analyzed_symbol' not in st.session_state:
+    st.session_state.analyzed_symbol = ""
+if 'analysis_run' not in st.session_state:
+    st.session_state.analysis_run = False
+if 'selected_tab' not in st.session_state:
+    st.session_state.selected_tab = 0
+if 'wave_count_selection' not in st.session_state:
+    st.session_state.wave_count_selection = "Primary Count (Impulse)"
+
 # Add custom CSS
 st.markdown("""
 <style>
@@ -1277,11 +1287,15 @@ selected_stock = st.sidebar.selectbox("Or select a popular stock:", [''] + popul
 if selected_stock:
     symbol = selected_stock
 
-# Add a "Run Analysis" button
-run_analysis = st.sidebar.button("Run Analysis")
+# Add a "Run Analysis" button with callback to set session state
+def on_run_analysis_click():
+    st.session_state.analyzed_symbol = symbol
+    st.session_state.analysis_run = True
+
+run_analysis = st.sidebar.button("Run Analysis", on_click=on_run_analysis_click)
 
 # Main content area
-if symbol and run_analysis:
+if st.session_state.analysis_run and (st.session_state.analyzed_symbol or symbol):
     st.markdown(f"<h2 class='sub-header'>Analysis for {symbol}</h2>", unsafe_allow_html=True)
     
     # Show loading spinner
@@ -1331,7 +1345,20 @@ if symbol and run_analysis:
                     
                     # Create tabs for Elliott Wave and Ichimoku
                     # We'll place this right after the main chart but before the Elliott Wave section
-                    ichimoku_tab, elliott_tab = st.tabs(["Ichimoku Cloud Analysis", "Elliott Wave Analysis"])
+                    tab_names = ["Ichimoku Cloud Analysis", "Elliott Wave Analysis"]
+                    
+                    # Update tab selection in session state when tabs are clicked
+                    def handle_tab_change():
+                        # The SessionState tab_key will be set automatically when the user clicks a tab
+                        tab_idx = int(st.session_state.tabs_key.split("-")[1])
+                        st.session_state.selected_tab = tab_idx
+                    
+                    # Use session state to remember which tab was selected
+                    ichimoku_tab, elliott_tab = st.tabs(
+                        tab_names, 
+                        key="tabs_key",
+                        on_change=handle_tab_change
+                    )
                     
                     with ichimoku_tab:
                         st.markdown("### Ichimoku Cloud Analysis")
@@ -1818,11 +1845,17 @@ if symbol and run_analysis:
                                 st.markdown("<h4>Select Alternative Wave Pattern</h4>", unsafe_allow_html=True)
                                 
                                 # Create a radio button for selecting different wave counts
+                                # Use session state to persist selection
+                                def on_wave_count_change_tab():
+                                    st.session_state.wave_count_selection = st.session_state.wave_count_radio_tab
+                                
                                 selected_count = st.radio(
                                     "Choose a wave count to view its complete analysis:",
                                     ["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"],
                                     key="wave_count_radio_tab",
-                                    horizontal=True
+                                    horizontal=True,
+                                    on_change=on_wave_count_change_tab,
+                                    index=["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"].index(st.session_state.wave_count_selection)
                                 )
                                 
                                 st.markdown("<hr style='margin: 15px 0px;'>", unsafe_allow_html=True)
@@ -2153,11 +2186,17 @@ if symbol and run_analysis:
                             st.markdown("<h4>Select Alternative Wave Pattern</h4>", unsafe_allow_html=True)
                             
                             # Create a radio button for selecting different wave counts
+                            # Use session state to persist selection
+                            def on_wave_count_change_main():
+                                st.session_state.wave_count_selection = st.session_state.wave_count_radio_main
+                                
                             selected_count = st.radio(
                                 "Choose a wave count to view its complete analysis:",
                                 ["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"],
-                                key="wave_count_radio_main",  # Different key from the first instance
-                                horizontal=True
+                                key="wave_count_radio_main",
+                                horizontal=True,
+                                on_change=on_wave_count_change_main,
+                                index=["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"].index(st.session_state.wave_count_selection)
                             )
                             
                             st.markdown("<hr style='margin: 15px 0px;'>", unsafe_allow_html=True)
@@ -2509,11 +2548,17 @@ if symbol and run_analysis:
                         st.markdown("<h4>Select Alternative Wave Pattern</h4>", unsafe_allow_html=True)
                         
                         # Create a radio button for selecting different wave counts
+                        # Use session state to persist selection
+                        def on_wave_count_change_enhanced():
+                            st.session_state.wave_count_selection = st.session_state.wave_count_radio_enhanced
+                            
                         selected_count = st.radio(
                             "Choose a wave count to view its complete analysis:",
                             ["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"],
-                            key="wave_count_radio_enhanced",  # Different key from other instances
-                            horizontal=True
+                            key="wave_count_radio_enhanced",
+                            horizontal=True,
+                            on_change=on_wave_count_change_enhanced,
+                            index=["Primary Count (Impulse)", "Alternate Count (Diagonal)", "Bearish Count (Ending Diagonal)"].index(st.session_state.wave_count_selection)
                         )
                         
                         st.markdown("<hr style='margin: 15px 0px;'>", unsafe_allow_html=True)
