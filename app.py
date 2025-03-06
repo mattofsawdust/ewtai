@@ -2029,7 +2029,7 @@ if symbol and run_analysis:
                         st.write(f"Confidence: {confidence:.2f}")
                         
                         # Show wave count toggle
-                        show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False)
+                        show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False, key="wave_counts_main_tab")
                         st.markdown("</div>", unsafe_allow_html=True)
                     
                     with ew_col2:
@@ -2318,7 +2318,7 @@ if symbol and run_analysis:
                     st.write(f"Confidence: {confidence:.2f}")
                     
                     # Show wave count toggle
-                    show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False)
+                    show_multiple_counts = st.checkbox("Show Alternative Wave Counts", value=False, key="wave_counts_enhanced_analysis")
                     st.markdown("</div>", unsafe_allow_html=True)
                 
                 with ew_col2:
