@@ -1372,22 +1372,37 @@ if symbol and run_analysis:
                         # Get current price for calculations
                         current_price = float(df['Close'].iloc[-1])
                         
-                        # Create simplified demo data based on current price
-                        if current_price > 0:
-                            conversion_line = current_price * 0.98
-                            base_line = current_price * 0.96
-                            span_a = current_price * 0.95
-                            span_b = current_price * 0.92
+                        # Get actual calculated Ichimoku values (most recent values)
+                        if 'Ichimoku_Conversion' in df.columns and not pd.isna(df['Ichimoku_Conversion'].iloc[-1]):
+                            conversion_line = float(df['Ichimoku_Conversion'].iloc[-1])
                         else:
-                            current_price = 100
-                            conversion_line = 98
-                            base_line = 96
-                            span_a = 95
-                            span_b = 92
+                            conversion_line = current_price * 0.98  # Fallback
+                            
+                        if 'Ichimoku_Base' in df.columns and not pd.isna(df['Ichimoku_Base'].iloc[-1]):
+                            base_line = float(df['Ichimoku_Base'].iloc[-1])
+                        else:
+                            base_line = current_price * 0.96  # Fallback
+                            
+                        if 'Ichimoku_SpanA' in df.columns and not pd.isna(df['Ichimoku_SpanA'].iloc[-1]):
+                            span_a = float(df['Ichimoku_SpanA'].iloc[-1])
+                        else:
+                            span_a = current_price * 0.95  # Fallback
+                            
+                        if 'Ichimoku_SpanB' in df.columns and not pd.isna(df['Ichimoku_SpanB'].iloc[-1]):
+                            span_b = float(df['Ichimoku_SpanB'].iloc[-1])
+                        else:
+                            span_b = current_price * 0.92  # Fallback
                         
-                        # Demo values for Ichimoku components
+                        # Current cloud values
                         cloud_top = max(span_a, span_b)
                         cloud_bottom = min(span_a, span_b)
+                        
+                        # Add debug message so we can verify the values
+                        st.sidebar.markdown("---")
+                        st.sidebar.markdown("<small>**Debug Info (Cloud Values)**</small>", unsafe_allow_html=True)
+                        st.sidebar.markdown(f"<small>Current Price: {current_price:.2f}</small>", unsafe_allow_html=True)
+                        st.sidebar.markdown(f"<small>Cloud Top: {cloud_top:.2f}</small>", unsafe_allow_html=True)
+                        st.sidebar.markdown(f"<small>Cloud Bottom: {cloud_bottom:.2f}</small>", unsafe_allow_html=True)
                         
                         with ich_col1:
                             st.markdown("<div class='info-container'>", unsafe_allow_html=True)
