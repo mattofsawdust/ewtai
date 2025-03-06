@@ -2153,43 +2153,7 @@ if symbol and run_analysis:
                     Currently, we are watching the development of wave 5. The structure suggests the price is in a bullish trend overall.
                     """)
                     
-                    # Add TradingView Advanced Chart Widget for Elliott Wave visualization
-                    st.markdown("#### Elliott Wave Chart (Wave Count Visualization)")
-                        # Use the TradingView Advanced Chart Widget with candlestick pattern and technical indicators
-                    st.components.v1.html(f"""
-                    <!-- TradingView Widget BEGIN -->
-                    <div class="tradingview-widget-container">
-                      <div class="tradingview-widget-container__widget"></div>
-                      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                      {{
-                      "width": "100%",
-                      "height": 500,
-                      "symbol": "NASDAQ:{symbol}",
-                      "interval": "D",
-                      "timezone": "exchange",
-                      "theme": "light",
-                      "style": "1",
-                      "locale": "en",
-                      "toolbar_bg": "#f1f3f6",
-                      "hide_top_toolbar": false,
-                      "enable_publishing": false,
-                      "save_image": false,
-                      "studies": [
-                        "MAExp@tv-basicstudies",
-                        "MACD@tv-basicstudies",
-                        "RSI@tv-basicstudies",
-                        "Volume@tv-basicstudies"
-                      ],
-                      "allow_symbol_change": true,
-                      "details": true,
-                      "calendar": false,
-                      "support_host": "https://www.tradingview.com"
-                      }}
-                      </script>
-                    </div>
-                    <!-- TradingView Widget END -->
-                    """, height=550)
-                    st.caption(f"Elliott Wave Chart for {symbol} (Use this chart to identify wave patterns)")
+                    # Additional analysis already provided in the Elliott Wave tab above
                     
                     # Show alternative wave counts if requested
                     if show_multiple_counts:
@@ -2478,43 +2442,7 @@ if symbol and run_analysis:
                 Currently, we are watching the development of wave 5. The structure suggests the price is in a bullish trend overall.
                 """)
                 
-                # Add TradingView Advanced Chart Widget for Elliott Wave visualization
-                st.markdown("#### Elliott Wave Chart (Wave Count Visualization)")
-                # Use the TradingView Advanced Chart Widget for Elliott Wave Visualization with Candles and Key Indicators
-                st.components.v1.html(f"""
-                <!-- TradingView Widget BEGIN -->
-                <div class="tradingview-widget-container">
-                  <div class="tradingview-widget-container__widget"></div>
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                  {{
-                  "width": "100%",
-                  "height": 500,
-                  "symbol": "NASDAQ:{symbol}",
-                  "interval": "D",
-                  "timezone": "exchange",
-                  "theme": "light",
-                  "style": "1",
-                  "locale": "en",
-                  "toolbar_bg": "#f1f3f6",
-                  "hide_top_toolbar": false,
-                  "enable_publishing": false,
-                  "save_image": false,
-                  "studies": [
-                    "MAExp@tv-basicstudies",
-                    "MACD@tv-basicstudies",
-                    "RSI@tv-basicstudies",
-                    "Volume@tv-basicstudies"
-                  ],
-                  "allow_symbol_change": true,
-                  "details": true,
-                  "calendar": false,
-                  "support_host": "https://www.tradingview.com"
-                  }}
-                  </script>
-                </div>
-                <!-- TradingView Widget END -->
-                """, height=600)
-                st.caption(f"Elliott Wave Chart for {symbol} (Use this chart to identify wave patterns)")
+                # Additional analysis already provided in the Elliott Wave tab above
                 
                 # Show alternative wave counts if requested
                 if show_multiple_counts:
